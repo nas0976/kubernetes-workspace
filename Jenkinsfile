@@ -8,7 +8,8 @@ spec:
   containers:
   - name: kubectl
     image: bitnami/kubectl:latest
-    command: ['cat']
+    command: ['/bin/sh', '-c']
+    args: ['sleep infinity']
     tty: true
 '''
         }
