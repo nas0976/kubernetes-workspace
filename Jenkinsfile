@@ -1,16 +1,24 @@
 pipeline {
-    agent any
-    stages {
-        stage('Checkout') {
-            steps {
-                // Jenkins récupérera vos fichiers depuis votre repo GitHub
-                checkout scm
-            }
+    agent {
+        kubernetes {
+            yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: kubectl
+    image: bitnami/kubectl:latest
+    command: ['cat']
+    tty: true
+'''
         }
+    }
+    stages {
         stage('Deploy to Kubernetes') {
             steps {
-                // Application de vos manifestes sur le namespace wordpress-ns
-                sh 'kubectl apply -f . -n wordpress-ns'
+                container('kubectl') {
+                    sh 'kubectl apply -f . -n wordpress-ns'
+                }
             }
         }
     }
