@@ -20,7 +20,7 @@ spec:
                     // La commande 'cat' laisse le conteneur ouvert 
                     // et permet au shell de Jenkins de s'exécuter normalement.
                     sh 'kubectl version --client'
-                    sh 'kubectl apply -f . -n wordpress-ns'
+                    sh 'kubectl apply -f mysql-deployment.yaml -f mysql-service.yaml -f mysql-pvc.yaml -f wordpress-deployment.yaml -f wordpress-service.yaml -f wordpress-pvc.yaml -n wordpress-ns'
                 }
             }
         }
